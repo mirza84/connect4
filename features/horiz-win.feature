@@ -11,11 +11,3 @@ Background:
 Scenario: Horizontal win
   When the first player plays 4 bricks in a row horizontally
   Then he/she should win
-
-
-
-
-
-#Scenario: Diagonal win (right to left)
-#  When the first player plays 4 bricks in a diagonally (right to left)
-#  Then he/she should win
