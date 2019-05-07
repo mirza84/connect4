@@ -11,3 +11,19 @@ Background:
 Scenario: Human to bot
   When the bot plays 4 bricks in a row
   Then the bot should win
+
+Scenario: Human to bot
+  When the bot plays 4 bricks in a row
+  Then the bot should win
+
+Scenario: Human to bot
+  When the bot plays 4 bricks in a row
+  Then the bot should win
+
+Scenario: Human to bot
+  When the bot plays 4 bricks in a row
+  Then the bot should win
+
+Scenario: Human to bot
+  When the bot plays 4 bricks in a row
+  Then the bot should win

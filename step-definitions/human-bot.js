@@ -19,31 +19,36 @@ module.exports = function () {
     });
 
     this.When(/^the bot plays (\d+) bricks in a row$/, async function (brickstoWin) {
+            let slots = await $('.slot');
 
-        let slots = await $('.slot');
+            await slots[3].click();// spelare1 
+            await sleep(sleepTime * 4);
 
-        await slots[3].click();// spelare1 
-        await sleep(sleepTime * 4);
+            slots = await $('.slot')
+            await slots[2].click() // spelare 1
+            await sleep(sleepTime * 4)
 
-        slots = await $('.slot')
-        await slots[2].click() // spelare 1
-        await sleep(sleepTime * 4)
+            slots = await $('.slot')
+            await slots[1].click() // spelare 1
+            await sleep(sleepTime * 4)
 
-        slots = await $('.slot')
-        await slots[1].click() // spelare 1
-        await sleep(sleepTime * 4)
+            slots = await $('.slot')
+            await slots[0].click() // spelare 1
+            await sleep(sleepTime * 4)
 
-        slots = await $('.slot')
-        await slots[0].click() // spelare 1
-        await sleep(sleepTime * 4)
     });
 
+    let wins = 0
     this.Then(/^the bot should win$/, async function () {
         let contents = await driver.findElement(By.css('body > div > main > div > div.game-info > h3 > span'))
         contents = await contents.getText()
         //assert(contents === 'Spelare')
         contents = contents.split(',')
 
+        if(contents[0] === 'Spelare 1 vann'){
+            wins++
+            console.log('Spelare1 vann ' + wins + ' gånger')
+        }
         assert(contents[0] === 'Spelare 1 vann', 'Fel har inträffat' + contents)
         await sleep(sleepTime)
     });

@@ -1,0 +1,4 @@
+[0507/133542.777:ERROR:process_reader_win.cc(123)] NtOpenThread: {Åtkomst nekad} En process har begärt åtkomst till ett objekt, men har inte de rättigheter som krävs. (0xc0000022)
+[0507/133542.778:ERROR:exception_snapshot_win.cc(98)] thread ID 12004 not found in process
+[0507/133710.122:ERROR:process_reader_win.cc(123)] NtOpenThread: {Åtkomst nekad} En process har begärt åtkomst till ett objekt, men har inte de rättigheter som krävs. (0xc0000022)
+[0507/133710.123:ERROR:exception_snapshot_win.cc(98)] thread ID 348 not found in process
