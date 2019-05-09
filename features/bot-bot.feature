@@ -9,5 +9,13 @@ Background:
   Then the game should start
 
 Scenario: Bot vs bot - who wins
-  When the player wins
+  When the game ends 
+  Then the results should be displayed
+
+Scenario: Bot vs bot - who wins
+  When the game ends 
+  Then the results should be displayed
+
+Scenario: Bot vs bot - who wins
+  When the game ends 
   Then the results should be displayed
