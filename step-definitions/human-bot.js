@@ -42,7 +42,7 @@ module.exports = function () {
     this.Then(/^the bot should win$/, async function () {
         let contents = await driver.findElement(By.css('body > div > main > div > div.game-info > h3 > span'))
         contents = await contents.getText()
-        //assert(contents === 'Spelare')
+        
         contents = contents.split(',')
 
         if(contents[0] === 'Spelare 1 vann'){

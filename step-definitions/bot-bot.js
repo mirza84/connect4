@@ -16,29 +16,30 @@ module.exports = function () {
         await sleep(sleepTime)
         choices = await $('.dropdown-menu.type-choice.show .dropdown-item');
         await choices[1].click()
-      });
+    });
 
-      let player1 = 0
-      let player2 = 0
-      let draw = 0
-      this.When(/^the player wins$/, async function () {
-        //let contents = await driver.findElement(By.css('body > div > main > div > div.game-info > h3 > span'))
+    let player1 = 0
+    let player2 = 0
+    let draw = 0
+    this.When(/^the player wins$/, async function () {
         await driver.wait(until.elementLocated(By.className('again-btn')))
-        let contents = await driver.findElement(By.css('body > div > main > div > div.game-info > h3 > span'))
+        let contents = await driver.findElement(By.className('mb-3 text-center'))
         contents = await contents.getText()
-        //assert(contents === 'Spelare')
-        contents = contents.split(',')
-        console.log('KONTROLL' + contents)
 
-        if(contents[0] === 'Spelare 1 vann'){
+        console.log('test1: ' + contents)
+        if (contents.includes('Det blev oavgjort!')) {
+            draw++
+        }
+        if (contents.includes('Spelare 1 vann')) {
             player1++
-        }else if(contents[0] === 'Spelare 2 vann'){
+        }
+        if (contents.includes('Spelare 2 vann')) {
             player2++
-        }else{draw++}
-
+        }
+        
         console.log('Spelare1: ' + player1)
         console.log('Spelare2: ' + player2)
         console.log('Oavgjort: ' + draw)
         await sleep(sleepTime)
-      });
+    });
 }
