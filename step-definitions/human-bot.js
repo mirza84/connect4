@@ -40,7 +40,20 @@ module.exports = function () {
 
     let wins = 0
     this.Then(/^the bot should win$/, async function () {
-        let contents = await driver.findElement(By.css('body > div > main > div > div.game-info > h3 > span'))
+        let contents;
+        // this is way to wait until an element is on screen
+        // instead of waiting a long while we try to get the element
+        // sleep for a short while and try to get again until we have it
+        // (dangerous if we are not sure that the element will be eventually)
+        while (true){
+          contents = await driver.findElement(By.css('body > div > main > div > div.game-info > h3 > span'))
+          if(contents !== null){ 
+              break;
+              // we found the element so exit the loop
+          } 
+          // otherwis sleep and continue the loop
+          await sleep(200);
+        }
         contents = await contents.getText()
         //assert(contents === 'Spelare')
         contents = contents.split(',')
