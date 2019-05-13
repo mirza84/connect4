@@ -55,7 +55,7 @@ module.exports = function () {
           await sleep(200);
         }
         contents = await contents.getText()
-        //assert(contents === 'Spelare')
+        
         contents = contents.split(',')
 
         if(contents[0] === 'Spelare 1 vann'){
