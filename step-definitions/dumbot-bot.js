@@ -1,6 +1,6 @@
 let { $, sleep } = require('./funcs');
 
-let sleepTime = 1000;
+let sleepTime = 5000;
 
 module.exports = function () {
 
@@ -24,9 +24,10 @@ module.exports = function () {
         contents = await contents.getText()
         //assert(contents === 'Spelare')
         contents = contents.split(',')
-    
-        assert(contents[0] === 'Spelare 1 vann', 'Fel har inträffat' + contents)
         await sleep(sleepTime)
+    
+       assert(contents[0] === 'Spelare 1 vann', 'Fel har inträffat' + contents)
+       await sleep(sleepTime)
         
       });
 

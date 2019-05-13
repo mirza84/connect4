@@ -12,3 +12,23 @@ Scenario: Dum bot vs bot
   When the bot plays 4 bricks in a row
   Then the bot should win
   And the winning result should show
+
+Scenario: Dum bot vs bot 
+  When the bot plays 4 bricks in a row
+  Then the bot should win
+  And the winning result should show
+
+Scenario: Dum bot vs bot 
+  When the bot plays 4 bricks in a row
+  Then the bot should win
+  And the winning result should show
+
+Scenario: Dum bot vs bot 
+  When the bot plays 4 bricks in a row
+  Then the bot should win
+  And the winning result should show
+
+Scenario: Dum bot vs bot 
+  When the bot plays 4 bricks in a row
+  Then the bot should win
+  And the winning result should show
