@@ -1,5 +1,5 @@
 Feature: Human to bot
-  As user I would like to be able to play against the bot.
+  To be able to se if the moves of the bot are randomized.
 
 Background:
   Given that I goto the game page
