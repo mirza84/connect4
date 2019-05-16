@@ -62,6 +62,11 @@ module.exports = function () {
   function $$(cssSelector) {
     return $(cssSelector, gamesolverDriver);
   }
+
+  this.Then(/^the game should begin$/, async function () {
+    let oldBoard = await boardToArray();
+    console.log(oldBoard)
+  });
  
   this.Given(/^that we are on the gamesolver page$/, async function () {
     // creating a new driver
