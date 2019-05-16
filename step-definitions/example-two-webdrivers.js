@@ -24,16 +24,16 @@ async function boardToArray() {
     return boardArray;
 }
 
-function compareArray() {
+function compareArray(board1, board2) {
     let differences = [];
-    for (i = 0; i == 42; i++) {
-
-        //assert(oldBoard[i] === newBoard[i], 'The new position is ' + i)
-        if (oldBoard[i] !== newBoard[i]) {
-            differences.push({
-                color: newBoard[i],
+    for (i = 0; i < 42; i++) {
+        if (board1[i] !== board2[i]) {
+            differences.push(
+              {
+                color: board2[i],
                 position: i
-            })
+              }
+            )
         }
     }
     return differences
@@ -95,36 +95,24 @@ module.exports = function () {
     });
 
     this.When(/^they have played until one wins$/, async function () {
+        let newLocalBoard;
+        let ourDifferences;
+        let localBoard = await boardToArray();
 
-        let oldBoard = await boardToArray();
-        console.log('Old Board' + oldBoard)
-
-        await sleep(sleepTime * 2)
-        let newBoard = await boardToArray()
-        console.log('New Board' + newBoard)
-
-        while (true) {
-            //let klick = await driver.findElement(By.className('board'))
-            //let klick2 = await klick.click()
-
-            let position = compareArray()
-            console.log(position[2])
-
+        while(!newLocalBoard || newLocalBoard === localBoard){
+          await sleep(200);
+          newLocalBoard = await boardToArray();
+          console.log('x', newLocalBoard === localBoard);
         }
+        ourDifferences = compareArray(localBoard, newLocalBoard)
+        console.log('ourDifferences', ourDifferences);
 
-        console.log('differences', differences)
+        // let theirDifferences = compareArray(theirBoard, newTheirBoard)
+        // console.log('theirDifferences', theirDifferences);
 
-        let timeout = setTimeout(() => {
-            if (compareArray) {
-                // something changerd
-            } else {
-                timeout()
-            }
-        }, 100)
+        // theirDifferences[0].color
+        // theirDifferences[0].position
 
-        //compareArray()
-        //if(oldBoard === newBoard){console.log('111111111111111111111111111')}
-        //else{console.log('222222222222222222222222222222222222')}
     });
 
     this.Then(/^the gamesolver bot should always win$/, async function () {
