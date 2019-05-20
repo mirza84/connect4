@@ -10,9 +10,9 @@ let sleepTime = 500;
 let oldBoard
 let newBoard
 
-async function boardToArray() {
+async function boardToArray(slots) {
     let boardArray = [];
-    let slots = await $('.slot'); // 42 slots
+    slots = slots || await $('.slot'); // 42 slots
     let count = 0;
     for (let slot of slots) {
         let cssClass = await slot.getAttribute('class');
@@ -97,15 +97,35 @@ module.exports = function () {
     this.When(/^they have played until one wins$/, async function () {
         let newLocalBoard;
         let ourDifferences;
-        let localBoard = await boardToArray();
+        let last
+        await sleep(100);
+        //await gamesolverDriver.get('https://connect4.gamesolver.org/')
 
-        while(!newLocalBoard || newLocalBoard === localBoard){
-          await sleep(200);
-          newLocalBoard = await boardToArray();
-          console.log('x', newLocalBoard === localBoard);
+
+        let localBoard = await gamesolverDriver.executeScript('return window.top.location.search')
+        console.log(localBoard)
+        //let slots = await $('.slot');
+        //let localBoard = await boardToArray(slots);
+        while(1){
+            while(!newLocalBoard || newLocalBoard === localBoard){
+            await sleep(200);
+            newLocalBoard = await gamesolverDriver.executeScript('return window.top.location.search')
+
+            console.log('x', newLocalBoard);
+            
+            last = newLocalBoard.split("")
+            console.log('last' + last)
+            last = last[last.length -1]
+            console.log('LAST: ', last)
+            }
+            localBoard = newLocalBoard;
+            newLocalBoard = false;
+            //ourDifferences = compareArray(localBoard, newLocalBoard)
+            //if(ourDifferences){
+                //console.log('ourDifferences', ourDifferences);
+            //}
+            
         }
-        ourDifferences = compareArray(localBoard, newLocalBoard)
-        console.log('ourDifferences', ourDifferences);
 
         // let theirDifferences = compareArray(theirBoard, newTheirBoard)
         // console.log('theirDifferences', theirDifferences);
