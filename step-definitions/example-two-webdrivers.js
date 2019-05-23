@@ -10,6 +10,14 @@ let sleepTime = 500;
 let oldBoard
 let newBoard
 
+async function Board1kolumn(position){
+    let matrix = [ 
+    0, 1, 2, 3, 4, 5, 6,
+    7, 8, 9, 10, 11, 12, 13    
+]
+console.log('matrix: ', matrix[1])
+}
+
 async function boardToArray(slots) {
     let boardArray = [];
     slots = slots || await $('.slot'); // 42 slots
@@ -103,8 +111,6 @@ module.exports = function () {
 
         let beginButton = await $('.begin-btn');
         await beginButton.click();
-       
-
 
         while (1) {
             try {
@@ -135,7 +141,7 @@ module.exports = function () {
             let Board2position = await gamesolverDriver.executeScript('return window.top.location.search')
             console.log(Board2position)
             let slots = await gamesolverDriver.findElements(by.css('.board'))
-            await slots[6].click();
+            await slots[18].click();
 
             while (!Board2NewPosition || Board2NewPosition === Board2position) {
                 await sleep(200);
