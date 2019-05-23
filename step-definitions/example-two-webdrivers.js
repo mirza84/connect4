@@ -96,28 +96,46 @@ module.exports = function () {
 
     this.When(/^they have played until one wins$/, async function () {
         let Board2NewPosition;
-        let ourDifferences;
+        let Board1Difference;
         let last;
-        let ourBoard;
-        let newLocalBoard;
-        await sleep(100);
-     
+        let Board1 = [];
+        let Board1New = [];
+
+        let beginButton = await $('.begin-btn');
+        await beginButton.click();
+       
+
+
         while (1) {
-            let newOurBoard
-            let ourBoard = await boardToArray();
+            try {
+                if (Board1.length === 0) Board1 = await boardToArray()
+            } catch (e) {
+               await sleep(10) 
+               continue
+            }
 
-            while (!newLocalBoard || newLocalBoard === localBoard) {
+            while (Board1New.length === 0 || compareArray(Board1, Board1New).length === 0) {
+                try {
+                    Board1New = await boardToArray()
+                } catch (e) { }
                 await sleep(200);
-               try{
-                    ourBoard = await boardToArray()
-               }catch(e){}
-
-                console.log('ourBoard',ourBoard)
-           }
+            }
             // ourLast
+            //console.log('skillnad1 ' + Board1)
+            //console.log('skillnad2 ' + Board1New)
+            Board1Difference = await compareArray(Board1, Board1New)
+            console.log('DIFFERENCES ', Board1Difference)
+            Board1 = Board1New
+            let kolumn = Board1Difference.map(a => a.position)
+            kolumn = kolumn[1]? kolumn[1] : kolumn[0]; 
+            console.log('Position ', kolumn)
+
+
 
             let Board2position = await gamesolverDriver.executeScript('return window.top.location.search')
             console.log(Board2position)
+            let slots = await gamesolverDriver.findElements(by.css('.board'))
+            await slots[6].click();
 
             while (!Board2NewPosition || Board2NewPosition === Board2position) {
                 await sleep(200);
@@ -128,11 +146,11 @@ module.exports = function () {
             console.log('LAST: ', last)
             Board2position = Board2NewPosition;
             Board2NewPosition = false;
-            
 
-       }
 
-    
+        }
+
+
 
     });
 
