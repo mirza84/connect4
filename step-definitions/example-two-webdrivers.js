@@ -29,10 +29,10 @@ function compareArray(board1, board2) {
     for (i = 0; i < 42; i++) {
         if (board1[i] !== board2[i]) {
             differences.push(
-              {
-                color: board2[i],
-                position: i
-              }
+                {
+                    color: board2[i],
+                    position: i
+                }
             )
         }
     }
@@ -95,43 +95,44 @@ module.exports = function () {
     });
 
     this.When(/^they have played until one wins$/, async function () {
-        let newLocalBoard;
+        let Board2NewPosition;
         let ourDifferences;
-        let last
+        let last;
+        let ourBoard;
+        let newLocalBoard;
         await sleep(100);
-        //await gamesolverDriver.get('https://connect4.gamesolver.org/')
+     
+        while (1) {
+            let newOurBoard
+            let ourBoard = await boardToArray();
 
+            while (!newLocalBoard || newLocalBoard === localBoard) {
+                await sleep(200);
+               try{
+                    ourBoard = await boardToArray()
+               }catch(e){}
 
-        let localBoard = await gamesolverDriver.executeScript('return window.top.location.search')
-        console.log(localBoard)
-        //let slots = await $('.slot');
-        //let localBoard = await boardToArray(slots);
-        while(1){
-            while(!newLocalBoard || newLocalBoard === localBoard){
-            await sleep(200);
-            newLocalBoard = await gamesolverDriver.executeScript('return window.top.location.search')
+                console.log('ourBoard',ourBoard)
+           }
+            // ourLast
 
-            console.log('x', newLocalBoard);
-            
-            last = newLocalBoard.split("")
-            console.log('last' + last)
-            last = last[last.length -1]
-            console.log('LAST: ', last)
+            let Board2position = await gamesolverDriver.executeScript('return window.top.location.search')
+            console.log(Board2position)
+
+            while (!Board2NewPosition || Board2NewPosition === Board2position) {
+                await sleep(200);
+                Board2NewPosition = await gamesolverDriver.executeScript('return window.top.location.search')
+                last = Board2NewPosition.split("")
+                last = last[last.length - 1]
             }
-            localBoard = newLocalBoard;
-            newLocalBoard = false;
-            //ourDifferences = compareArray(localBoard, newLocalBoard)
-            //if(ourDifferences){
-                //console.log('ourDifferences', ourDifferences);
-            //}
+            console.log('LAST: ', last)
+            Board2position = Board2NewPosition;
+            Board2NewPosition = false;
             
-        }
 
-        // let theirDifferences = compareArray(theirBoard, newTheirBoard)
-        // console.log('theirDifferences', theirDifferences);
+       }
 
-        // theirDifferences[0].color
-        // theirDifferences[0].position
+    
 
     });
 
