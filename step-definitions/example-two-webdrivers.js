@@ -204,50 +204,28 @@ module.exports = function () {
 
             // kontroll om någon har vunnit
             // fungerar ej
-            /*
-            let solution = gamesolverDriver.findElements(by.css('#solution_header'))
-            solution = await solution.getText()
+            
+            let solutionBoard2 = await gamesolverDriver.findElement(by.css('#solution_header')).getAttribute('innerHTML')
+            
+            let solutionBoard1 = await driver.findElement(by.css('body > div > main > div > div.game-info > h3')).getAttribute('innerHTML')
 
-            console.log('solution: ', solution)
-            if(solution.includes('won')){break}
-            */
+            //console.log('SOLUTION: ', solutionBoard1)
+            if(solutionBoard2.includes('won')){
+                console.log('Our bot vann!!!')
+                break
+            }else if(solutionBoard1.includes('vann')){
+                console.log('Motståndaren vann!!!')
+                break
+            }
+            
+
         }
-
-
-
-    });
+    })
 
     this.Then(/^the gamesolver bot should always win$/, async function () {
 
-        while (true) {
-            let gameInfoH3 = await $('.game-info h3');
-            // if there is no h3 run next iteration of the loop
-            if (gameInfoH3 === null) { continue; }
-            // otherwise check the text in the h3
-            let text;
-            try {
-                text = await gameInfoH3.getText();
-                console.log(text)
-            }
-            catch (e) {
-                // the element probably disappeared from the dom
-                // we go a selenium "stale element" error
-                // just continue the loop
-                continue;
-            }
-            if (text.includes('Our bot vann')) {
-                // stop the loop if the game is over
-                console.log('Our bot vann!!!')
-                /*
-                let alfa = document.querySelectorAll('slot row5').length
-                let first = alfa[0]
-                console.log(first)
-                */
-                break;
-            }
-            // wait a short while between checks (otherwise the cpi is overloaded)
-            await sleep(100);
-        }
+        
+
     });
 
     // Now we only have to write two different functions (or at least understand)
