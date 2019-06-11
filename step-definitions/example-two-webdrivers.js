@@ -7,15 +7,54 @@ const { Builder } = require('selenium-webdriver');
 
 let sleepTime = 500;
 
-let oldBoard
-let newBoard
+//hittar motsvarande position i board 2
+function Board1toBoard2(position){
+    let board2pos = 0
 
-async function Board1kolumn(position){
-    let matrix = [ 
-    0, 1, 2, 3, 4, 5, 6,
-    7, 8, 9, 10, 11, 12, 13    
-]
-console.log('matrix: ', matrix[1])
+    if(position === 0) board2pos = 0
+    if(position === 1) board2pos = 6
+    if(position === 2) board2pos = 12
+    if(position === 3) board2pos = 18
+    if(position === 4) board2pos = 24
+    if(position === 5) board2pos = 30
+    if(position === 6) board2pos = 36
+    if(position === 7) board2pos = 1
+    if(position === 8) board2pos = 7
+    if(position === 9) board2pos = 13
+    if(position === 10) board2pos = 19
+    if(position === 11) board2pos = 25
+    if(position === 12) board2pos = 31
+    if(position === 13) board2pos = 37
+    if(position === 14) board2pos = 2
+    if(position === 15) board2pos = 8
+    if(position === 16) board2pos = 14
+    if(position === 17) board2pos = 20
+    if(position === 18) board2pos = 26
+    if(position === 19) board2pos = 32
+    if(position === 20) board2pos = 38
+    if(position === 21) board2pos = 3
+    if(position === 22) board2pos = 9
+    if(position === 23) board2pos = 15
+    if(position === 24) board2pos = 21
+    if(position === 25) board2pos = 27
+    if(position === 26) board2pos = 33
+    if(position === 27) board2pos = 39
+    if(position === 28) board2pos = 4
+    if(position === 29) board2pos = 10
+    if(position === 30) board2pos = 16
+    if(position === 31) board2pos = 22
+    if(position === 32) board2pos = 28
+    if(position === 33) board2pos = 34
+    if(position === 34) board2pos = 40
+    if(position === 35) board2pos = 5
+    if(position === 36) board2pos = 11
+    if(position === 37) board2pos = 17
+    if(position === 38) board2pos = 23
+    if(position === 39) board2pos = 29
+    if(position === 40) board2pos = 35
+    if(position === 41) board2pos = 41
+
+    return board2pos
 }
 
 async function boardToArray(slots) {
@@ -126,22 +165,26 @@ module.exports = function () {
                 } catch (e) { }
                 await sleep(200);
             }
-            // ourLast
-            //console.log('skillnad1 ' + Board1)
-            //console.log('skillnad2 ' + Board1New)
+            
             Board1Difference = await compareArray(Board1, Board1New)
             console.log('DIFFERENCES ', Board1Difference)
             Board1 = Board1New
-            let kolumn = Board1Difference.map(a => a.position)
-            kolumn = kolumn[1]? kolumn[1] : kolumn[0]; 
-            console.log('Position ', kolumn)
+            let Board1position = Board1Difference.map(a => a.position)
+            Board1position = Board1position[1]? Board1position[1] : Board1position[0]; 
+            console.log('Board1 Position: ', Board1position)
 
+            //let kolumn = await Board1kolumn(Board1position)
+            //console.log('Board1 Kolumn: ', kolumn)
+
+            let board1toboard2POS = Board1toBoard2(Board1position)
+            console.log('Board1 positionen ' + Board1position + ' motsvarar Board2 position ' + board1toboard2POS)
 
 
             let Board2position = await gamesolverDriver.executeScript('return window.top.location.search')
-            console.log(Board2position)
+            console.log('Board2 Position: ', Board2position)
             let slots = await gamesolverDriver.findElements(by.css('.board'))
-            await slots[18].click();
+            await slots[board1toboard2POS].click(); //spela board1-drag på board2
+            await sleep(2000)
 
             while (!Board2NewPosition || Board2NewPosition === Board2position) {
                 await sleep(200);
@@ -153,7 +196,21 @@ module.exports = function () {
             Board2position = Board2NewPosition;
             Board2NewPosition = false;
 
+            last-- //kolumner på board2 börjar på 1 medan kolumn på board1 börjar på 0
+                    //så man får räknar ner ett steg för att få rätt kolumn i board1
+            slots = await $('.slot')
+            await slots[last].click()
+            await sleep(2000)
 
+            // kontroll om någon har vunnit
+            // fungerar ej
+            /*
+            let solution = gamesolverDriver.findElements(by.css('#solution_header'))
+            solution = await solution.getText()
+
+            console.log('solution: ', solution)
+            if(solution.includes('won')){break}
+            */
         }
 
 
